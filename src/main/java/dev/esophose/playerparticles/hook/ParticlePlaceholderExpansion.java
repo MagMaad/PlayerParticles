@@ -28,6 +28,8 @@ public class ParticlePlaceholderExpansion extends PlaceholderExpansion {
         switch (placeholder) {
             case "active_amount":
                 return String.valueOf(pplayer.getActiveParticles().size());
+            case "active_group":
+                return String.valueOf(pplayer.getActivePresetGroup());
             case "group_amount":
                 return String.valueOf(pplayer.getParticleGroups().size() - 1);
             case "fixed_amount":

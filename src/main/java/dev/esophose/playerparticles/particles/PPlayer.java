@@ -36,6 +36,11 @@ public class PPlayer {
      * A map of FixedParticleEffects this user has applied
      */
     private Map<Integer, FixedParticleEffect> fixedParticles;
+
+    /**
+     * A lowercase Display Name of the active preset.
+     */
+    private String activePresetGroup = "none";
     
     /**
      * If True, the player will not see any particles spawned by the plugin
@@ -162,7 +167,23 @@ public class PPlayer {
     public Map<String, ParticleGroup> getParticleGroups() {
         return this.particleGroups;
     }
-    
+
+    /**
+     * Get the currently active preset group
+     *
+     * @return Active preset group
+     */
+    public String getActivePresetGroup() {
+        return this.activePresetGroup;
+    }
+
+    /**
+     * Resets the currently active preset group
+     */
+    public void clearActivePresetGroup() {
+        this.activePresetGroup = "none";
+    }
+
     /**
      * Sets the player's movement state
      * 
@@ -344,7 +365,7 @@ public class PPlayer {
         return primaryParticle;
     }
 
-    public void loadPresetGroup(Collection<ParticlePair> particles) {
+    public void loadPresetGroup(Collection<ParticlePair> particles, String groupName) {
         ParticleGroup activeGroup = this.getActiveParticleGroup();
         if (ConfigurationManager.Setting.PRESET_GROUPS_ALLOW_OVERLAPPING.getBoolean()) {
             List<Integer> existingIds = new ArrayList<>(activeGroup.getParticles().keySet());
@@ -365,6 +386,8 @@ public class PPlayer {
                 activeGroup.getParticles().put(clonedParticle.getId(), clonedParticle);
             }
         }
+
+        this.activePresetGroup = groupName.toLowerCase();
 
         PlayerParticlesAPI.getInstance().savePlayerParticleGroup(this.getPlayer(), activeGroup);
     }

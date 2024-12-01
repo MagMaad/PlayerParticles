@@ -170,7 +170,7 @@ public class GroupCommandModule implements CommandModule {
             return;
         }
 
-        pplayer.loadPresetGroup(presetGroup.getGroup().getParticles().values());
+        pplayer.loadPresetGroup(presetGroup.getGroup().getParticles().values(), presetGroup.getDisplayName());
         localeManager.sendMessage(pplayer, "group-load-preset-success", StringPlaceholders.builder("amount", presetGroup.getGroup().getParticles().size()).add("name", groupName).build());
     }
 
@@ -236,6 +236,8 @@ public class GroupCommandModule implements CommandModule {
                 return match;
             });
         }
+
+        pplayer.clearActivePresetGroup();
 
         PlayerParticlesAPI.getInstance().savePlayerParticleGroup(pplayer.getPlayer(), activeGroup);
         localeManager.sendMessage(pplayer, "group-unload-success", StringPlaceholders.builder("amount", matches.get()).add("name", groupName).build());
